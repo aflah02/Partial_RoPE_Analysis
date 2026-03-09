@@ -1,0 +1,30 @@
+{
+  # Data etc.
+  "data_path": "Datasets/FineWeb_Edu_100B_Merged_text_document", # [Replace with your dataset path]
+
+  # Vocab
+  "padded_vocab_size": 50304,
+  "vocab_file": "tokenizer.json", # [Replace with your tokenizer file path]
+  "tokenizer_type": "HFTokenizer",
+
+  "save": "Checkpoints/rope_pct_pythia_1b", # [Replace with your desired checkpoint save path]
+  "load": "Checkpoints/rope_pct_pythia_1b", # [Replace with your checkpoint load path, can be same as save if starting from scratch]
+  "checkpoint_validation_with_forward_pass": False,
+
+  "memory_profiling": true,
+  "memory_profiling_path": "profiles/rope_pct_pythia_1b", # [Replace with your desired memory profiling output path]
+  "profile_step_start": 0,
+  "profile_step_stop": 100,
+
+  # "tensorboard_dir": "tensorboard",
+  "log_dir": "logs",
+  "use_wandb": True,
+  "wandb_host": "https://api.wandb.ai",
+  "wandb_run_name": "rope_pct_pythia_1b", # [Replace with your desired WANDB run name]
+
+  "use_wandb": True,
+  "wandb_host": "https://api.wandb.ai",
+  "wandb_project": "rope-pct-exps", # [Replace with your desired WANDB project name]
+
+  "peak_theoretical_tflops": 989, # H200 - NVL, No Sparsity [Replace with your GPU's theoretical TFLOPS if desired for performance tracking]
+}

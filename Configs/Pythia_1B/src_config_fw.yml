@@ -6,14 +6,14 @@
   "make_vocab_size_divisible_by": 128, # If MP=2 then Need to set as 64 because code makes it divisible by MP*makes_vocab_size_divisible_by
 
   # model settings
-  "num_layers": 16,
-  "hidden_size": 2048,
-  "num_attention_heads": 32,
-  "num_kv_heads": 8,
-  "intermediate_size": 24576, # 8192*3
+  "num-layers": 16,
+  "hidden-size": 2048,
+  "num-attention-heads": 8,
+  "seq-length": 2048,
+  "max-position-embeddings": 2048,
 
-  "seq_length": 2048, # [Set to your desired sequence length, should be equal to max_position_embeddings. In the paper we use 1024, 2048, 4096 and 8192]
-  "max_position_embeddings": 2048, # [Set to your desired max position embeddings, should be equal to seq_length. In the paper we use 1024, 2048, 4096 and 8192]
+  "seq_length": 2048, 
+  "max_position_embeddings": 2048,
 
   "pos_emb": "none", # [Use for NoPE, set to "rotary" for RoPE]
   "rotary_pct": 1.0, # [Use to set RoPE PCT, ignored if pos_emb is not rotary]
@@ -25,7 +25,7 @@
   "rms_norm_epsilon": 1.0e-5,
   "rmsnorm_fusion": true,
   # Flash Attention
-  "attention_config": [[["flash"], 36]],
+  "attention_config": [[["flash"], 16]],
 
   # these should provide some speedup but takes a while to build, set to true if desired
   "scaled_upper_triang_masked_softmax_fusion": true,
@@ -68,13 +68,8 @@
   "min_lr": 0.00004,
 
   # batch / data settings
-  # Configuration depends on sequence length to match the effective batch size across sequence lengths
-  # 1024 - train_micro_batch_size_per_gpu: 128, gradient_accumulation_steps: 2
-  # 2048 - train_micro_batch_size_per_gpu: 64, gradient_accumulation_steps: 2
-  # 4096 - train_micro_batch_size_per_gpu: 32, gradient_accumulation_steps: 2
-  # 8192 - train_micro_batch_size_per_gpu: 16, gradient_accumulation_steps: 2
-  "train_micro_batch_size_per_gpu": , # [Set based on your sequence length, see comment above for configuration used in the paper]
-  "gradient_accumulation_steps": , # [Set based on your sequence length, see comment above for configuration used in the paper]
+  "train_micro_batch_size_per_gpu": 64,
+  "gradient_accumulation_steps": 2,
   "data_impl": "mmap",
 
   # activation checkpointing
