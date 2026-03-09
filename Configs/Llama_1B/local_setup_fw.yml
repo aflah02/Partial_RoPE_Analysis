@@ -7,12 +7,12 @@
   "vocab_file": "tokenizer.json", # [Replace with your tokenizer file path]
   "tokenizer_type": "HFTokenizer",
 
-  "save": "Checkpoints/rope_pct_llama_8b", # [Replace with your desired checkpoint save path]
-  "load": "Checkpoints/rope_pct_llama_8b", # [Replace with your checkpoint load path, can be same as save if starting from scratch]
+  "save": "Checkpoints/rope_pct_llama_1b", # [Replace with your desired checkpoint save path]
+  "load": "Checkpoints/rope_pct_llama_1b", # [Replace with your checkpoint load path, can be same as save if starting from scratch]
   "checkpoint_validation_with_forward_pass": False,
 
   "memory_profiling": true,
-  "memory_profiling_path": "profiles/rope_pct_llama_8b", # [Replace with your desired memory profiling output path]
+  "memory_profiling_path": "profiles/rope_pct_llama_1b", # [Replace with your desired memory profiling output path]
   "profile_step_start": 0,
   "profile_step_stop": 100,
 
@@ -20,7 +20,7 @@
   "log_dir": "logs",
   "use_wandb": True,
   "wandb_host": "https://api.wandb.ai",
-  "wandb_run_name": "rope_pct_llama_8b", # [Replace with your desired WANDB run name]
+  "wandb_run_name": "rope_pct_llama_1b", # [Replace with your desired WANDB run name]
 
   "use_wandb": True,
   "wandb_host": "https://api.wandb.ai",

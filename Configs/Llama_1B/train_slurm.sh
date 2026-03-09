@@ -1,6 +1,6 @@
 #! /bin/bash
-#SBATCH --job-name=rope_pct_llama_8b
-#SBATCH --output=logs/rope_pct_llama_8b-%j.out
+#SBATCH --job-name=rope_pct_llama_1b
+#SBATCH --output=logs/rope_pct_llama_1b-%j.out
 #SBATCH --time=15:30:00
 #SBATCH --gres=gpu:8
 #SBATCH --nodes=4

@@ -97,7 +97,7 @@ srun -l apptainer exec --nv --bind /dais/fs/scratch/afkhan:/dais/fs/scratch/afkh
     BASE_SETUP="local_setup_fw.yml"
     BASE_CONFIG="src_config_fw.yml"
     BASE_PREFIX="eval_saves"
-    BASE_WANDB="eval/Llama_8B"
+    BASE_WANDB="eval/Llama_1B"
 
     for TASK in "${TASKS[@]}"; do
       echo "=================================================="
