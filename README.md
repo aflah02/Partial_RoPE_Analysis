@@ -47,8 +47,16 @@ Please note that not all models have HF-compatible classes and require using GPT
 
 ## Citation
 
-If you find this repository or our results useful in your work, please consider citing our paper:
+If you find this repository or our results useful in your work, don't forget to cite our paper 😉:
 
 ```
-[COMING SOON]
+@misc{khan2026fractionalrotationpotentialinvestigating,
+      title={Fractional Rotation, Full Potential? Investigating Performance and Convergence of Partial RoPE}, 
+      author={Mohammad Aflah Khan and Krishna P. Gummadi and Manish Gupta and Abhilasha Ravichander},
+      year={2026},
+      eprint={2603.11611},
+      archivePrefix={arXiv},
+      primaryClass={cs.LG},
+      url={https://arxiv.org/abs/2603.11611}, 
+}
 ```
