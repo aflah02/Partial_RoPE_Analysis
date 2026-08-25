@@ -1,6 +1,6 @@
 # Partial RoPE Analysis
 
-This repository contains the code accompanying the paper **“Fractional Rotation, Full Potential? Investigating Performance and Convergence of Partial RoPE.”**
+This repository contains the code accompanying the paper **“Fractional Rotation, Full Potential? Investigating Performance and Convergence of Partial RoPE”** (Accepted at EMNLP 2026) 
 
 ## Data Preparation
 
