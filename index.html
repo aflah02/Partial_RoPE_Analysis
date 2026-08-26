@@ -50,7 +50,11 @@
             <a class="button button-secondary" href="https://github.com/aflah02/Partial_RoPE_Analysis" target="_blank" rel="noreferrer">Explore the code</a>
           </div>
           <p class="authors">
-            Mohammad Aflah Khan · Krishna P. Gummadi · Manish Gupta · Abhilasha Ravichander
+            Mohammad Aflah Khan<sup>1</sup> · Krishna P. Gummadi<sup>1</sup> · Manish Gupta<sup>2</sup> · Abhilasha Ravichander<sup>1</sup>
+          </p>
+          <p class="affiliations">
+            <span><sup>1</sup> Max Planck Institute for Software Systems</span>
+            <span><sup>2</sup> Microsoft, Hyderabad</span>
           </p>
         </div>
 
@@ -91,9 +95,15 @@
             <p id="rope-pair-detail">Select a dimension pair to inspect its frequency and rotation.</p>
           </div>
 
+          <div class="rope-observation">
+            <strong>Key observation</strong>
+            <p>Notice how the first few dimensions on the left (high frequency) spin rapidly with each step in position. In contrast, the dimensions on the right (low frequency) barely move.</p>
+            <p>This allows the model to learn both short-range and long-range relationships simultaneously.</p>
+          </div>
+
           <div class="rotation-card-bottom">
             <span>θ<sub>i</sub> = 10000<sup>−2i / d<sub>rope</sub></sup></span>
-            <a href="https://github.com/aflah02/Rope_Viz_Tool" target="_blank" rel="noreferrer">Full visualizer <span aria-hidden="true">↗</span></a>
+            <a href="https://aflah02.github.io/Rope_Viz_Tool/" target="_blank" rel="noreferrer">Interactive RoPE Visualization <span aria-hidden="true">↗</span></a>
           </div>
         </div>
       </section>
@@ -376,8 +386,6 @@
     <footer>
       <div class="footer-title">Fractional Rotation, Full Potential?</div>
       <div class="footer-meta">
-        <span>Max Planck Institute for Software Systems</span>
-        <span>Microsoft, Hyderabad</span>
         <span>EMNLP 2026</span>
       </div>
     </footer>

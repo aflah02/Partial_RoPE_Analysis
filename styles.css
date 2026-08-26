@@ -230,6 +230,24 @@ h1 em {
   line-height: 1.6;
 }
 
+.authors sup,
+.affiliations sup {
+  color: #007b6c;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.7em;
+  font-weight: 800;
+}
+
+.affiliations {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px 18px;
+  margin: 5px 0 0;
+  color: #85908a;
+  font-size: 10px;
+  line-height: 1.5;
+}
+
 .rotation-card {
   position: relative;
   overflow: hidden;
@@ -515,6 +533,37 @@ h1 em {
   font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   font-size: 8px;
   line-height: 1.5;
+}
+
+.rope-observation {
+  position: relative;
+  z-index: 2;
+  margin-top: 10px;
+  padding: 13px 15px;
+  border-left: 3px solid var(--lime);
+  border-radius: 4px 12px 12px 4px;
+  background: rgba(198, 255, 93, 0.08);
+}
+
+.rope-observation strong {
+  display: block;
+  margin-bottom: 5px;
+  color: var(--lime);
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.rope-observation p {
+  margin: 0;
+  color: #a7b8b1;
+  font-size: 9px;
+  line-height: 1.5;
+}
+
+.rope-observation p + p {
+  margin-top: 5px;
+  color: #d2ded9;
 }
 
 .rotation-card-bottom {
