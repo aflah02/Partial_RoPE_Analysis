@@ -286,118 +286,254 @@ h1 em {
   background: var(--lime);
 }
 
-.orbit-stage {
-  position: relative;
-  z-index: 1;
-  display: grid;
-  place-items: center;
-  margin: 30px 0 18px;
-}
-
-.orbit-stage svg {
-  width: min(100%, 420px);
-  overflow: visible;
-}
-
-.orbit {
-  fill: rgba(255, 255, 255, 0.015);
-  stroke: rgba(255, 255, 255, 0.15);
-  stroke-width: 1;
-}
-
-.orbit-inner {
-  stroke-dasharray: 3 8;
-}
-
-.orbit-arrow,
-.orbit-arrow-head {
-  fill: none;
-  stroke: url(#orbitGlow);
-  stroke-width: 5;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-
-.orbit-arrow {
-  stroke-dasharray: 340;
-  animation: orbit-draw 2.8s ease-in-out infinite alternate;
-}
-
-.signal-dot {
-  fill: var(--lime);
-  filter: drop-shadow(0 0 12px rgba(198, 255, 93, 0.8));
-}
-
-.signal-dot-one {
-  transform-origin: 210px 160px;
-  animation: orbit 8s linear infinite;
-}
-
-.signal-dot-two {
-  fill: var(--mint);
-  transform-origin: 210px 160px;
-  animation: orbit 6s linear infinite reverse;
-}
-
-.orbit-value {
-  fill: var(--white);
-  font-size: 54px;
-  font-weight: 850;
-  letter-spacing: -0.07em;
-}
-
-.orbit-label {
-  fill: #8da098;
-  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-  font-size: 11px;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-}
-
-.dimension-map {
+.rope-controls {
   position: relative;
   z-index: 2;
   display: grid;
-  grid-template-columns: repeat(10, 1fr);
-  gap: 7px;
-  margin: 0 4px 22px;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+  margin: 30px 0 22px;
+  padding: 17px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 18px;
+  background: rgba(3, 9, 7, 0.48);
 }
 
-.dimension-map span {
-  height: 44px;
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  border-radius: 6px;
-  background: rgba(255, 255, 255, 0.055);
+.rope-control label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 9px;
+  color: #b7c4bf;
+  font-size: 11px;
+  font-weight: 750;
 }
 
-.dimension-map .rotated {
-  border-color: rgba(198, 255, 93, 0.55);
-  background: linear-gradient(180deg, var(--lime), var(--mint));
-  box-shadow: 0 0 18px rgba(72, 234, 208, 0.2);
+.rope-control output {
+  color: var(--lime);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 12px;
+}
+
+.rope-control input[type="range"] {
+  width: 100%;
+  height: 4px;
+  margin: 0;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.15);
+  accent-color: var(--lime);
+  appearance: none;
+  cursor: pointer;
+}
+
+.rope-control input[type="range"]::-webkit-slider-thumb {
+  width: 15px;
+  height: 15px;
+  border: 3px solid var(--ink);
+  border-radius: 50%;
+  background: var(--lime);
+  box-shadow: 0 0 0 1px var(--lime);
+  -webkit-appearance: none;
+}
+
+.rope-control input[type="range"]::-moz-range-thumb {
+  width: 11px;
+  height: 11px;
+  border: 3px solid var(--ink);
+  border-radius: 50%;
+  background: var(--lime);
+  box-shadow: 0 0 0 1px var(--lime);
+}
+
+.range-labels {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 7px;
+  color: #62736c;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 7px;
+}
+
+.frequency-axis {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: auto 1fr auto auto;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+  color: #7d8e87;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 7px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.frequency-axis i {
+  height: 2px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--lime), var(--mint));
+}
+
+.frequency-axis b {
+  margin-left: 8px;
+  color: #596861;
+  font-weight: 600;
+}
+
+.rope-pair-grid {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  gap: 5px;
+}
+
+.rope-pair {
+  min-width: 0;
+  height: 58px;
+  display: grid;
+  place-items: center;
+  align-content: center;
+  gap: 2px;
+  padding: 4px 2px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.035);
+  color: #53645d;
+  cursor: pointer;
+  transition: border-color 160ms ease, background 160ms ease, transform 160ms ease;
+}
+
+.rope-pair:hover {
+  transform: translateY(-1px);
+  border-color: rgba(255, 255, 255, 0.28);
+}
+
+.rope-pair.active {
+  border-color: color-mix(in srgb, var(--pair-color), transparent 48%);
+  background: color-mix(in srgb, var(--pair-color), transparent 90%);
+  color: #c9d7d1;
+}
+
+.rope-pair.selected {
+  box-shadow: 0 0 0 1px var(--pair-color), 0 0 16px color-mix(in srgb, var(--pair-color), transparent 76%);
+}
+
+.pair-orbit {
+  position: relative;
+  width: 22px;
+  height: 22px;
+  border: 1px solid currentColor;
+  border-radius: 50%;
+  opacity: 0.8;
+}
+
+.pair-orbit::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: currentColor;
+  transform: translate(-50%, -50%);
+}
+
+.pair-orbit i {
+  position: absolute;
+  top: calc(50% - 1px);
+  left: 50%;
+  width: 9px;
+  height: 2px;
+  border-radius: 999px;
+  background: currentColor;
+  transform: rotate(var(--pair-angle));
+  transform-origin: left center;
+}
+
+.rope-pair.active .pair-orbit {
+  color: var(--pair-color);
+}
+
+.rope-pair strong,
+.rope-pair small {
+  max-width: 100%;
+  overflow: hidden;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  line-height: 1;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.rope-pair strong {
+  font-size: 7px;
+  font-weight: 700;
+}
+
+.rope-pair small {
+  color: #61716a;
+  font-size: 6px;
+}
+
+.rope-pair.active small {
+  color: #91a69d;
+}
+
+.rope-inspector {
+  position: relative;
+  z-index: 2;
+  min-height: 94px;
+  margin-top: 12px;
+  padding: 14px 16px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 14px;
+  background: rgba(3, 9, 7, 0.55);
+}
+
+.rope-inspector > span {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--lime);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 8px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.rope-inspector strong {
+  display: block;
+  color: #edf4f1;
+  font-size: 12px;
+}
+
+.rope-inspector p {
+  margin: 4px 0 0;
+  color: #86978f;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 8px;
+  line-height: 1.5;
 }
 
 .rotation-card-bottom {
-  justify-content: flex-start;
-  gap: 20px;
+  justify-content: space-between;
+  gap: 14px;
+  margin-top: 16px;
   border-top: 1px solid rgba(255, 255, 255, 0.11);
   padding-top: 18px;
+  text-transform: none;
 }
 
-.rotation-card-bottom span {
-  display: flex;
-  align-items: center;
-  gap: 7px;
+.rotation-card-bottom sup,
+.rotation-card-bottom sub {
+  line-height: 0;
 }
 
-.rotation-card-bottom i {
-  width: 8px;
-  height: 8px;
-  border-radius: 2px;
-  background: rgba(255, 255, 255, 0.2);
-}
-
-.rotation-card-bottom .legend-rotated {
-  background: var(--lime);
+.rotation-card-bottom a {
+  color: var(--mint);
+  text-decoration: none;
 }
 
 .signal-strip {
@@ -1061,15 +1197,6 @@ button:focus-visible {
   outline-offset: 4px;
 }
 
-@keyframes orbit {
-  to { transform: rotate(360deg); }
-}
-
-@keyframes orbit-draw {
-  from { stroke-dashoffset: 80; }
-  to { stroke-dashoffset: 0; }
-}
-
 @media (max-width: 1020px) {
   .hero {
     grid-template-columns: 1fr;
@@ -1161,13 +1288,17 @@ button:focus-visible {
     gap: 8px;
   }
 
-  .dimension-map {
-    grid-template-columns: repeat(10, 1fr);
-    gap: 4px;
+  .rope-controls {
+    grid-template-columns: 1fr;
+    gap: 14px;
   }
 
-  .dimension-map span {
-    height: 34px;
+  .rope-pair-grid {
+    gap: 3px;
+  }
+
+  .rope-pair {
+    height: 54px;
   }
 
   .signal-strip > div {

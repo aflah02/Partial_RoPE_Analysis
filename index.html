@@ -54,38 +54,46 @@
           </p>
         </div>
 
-        <div class="rotation-card" aria-label="Conceptual illustration: two of twenty dimensions rotate, representing ten percent Partial RoPE">
+        <div class="rotation-card" aria-label="Interactive Partial RoPE frequency explorer for a 64-dimensional attention head">
           <div class="rotation-card-top">
-            <span>Attention head</span>
-            <span class="live-dot">conceptual view</span>
+            <span>64-d attention head</span>
+            <span class="live-dot">interactive view</span>
           </div>
-          <div class="orbit-stage" aria-hidden="true">
-            <svg viewBox="0 0 420 320" role="img">
-              <defs>
-                <linearGradient id="orbitGlow" x1="0" y1="0" x2="1" y2="1">
-                  <stop offset="0" stop-color="#c6ff5d" />
-                  <stop offset="1" stop-color="#48ead0" />
-                </linearGradient>
-              </defs>
-              <circle class="orbit orbit-outer" cx="210" cy="160" r="116" />
-              <circle class="orbit orbit-inner" cx="210" cy="160" r="75" />
-              <path class="orbit-arrow" d="M111 101a116 116 0 0 1 197-17" />
-              <path class="orbit-arrow-head" d="m304 67 20 22-29 5" />
-              <circle class="signal-dot signal-dot-one" cx="210" cy="44" r="7" />
-              <circle class="signal-dot signal-dot-two" cx="285" cy="217" r="5" />
-              <text class="orbit-value" x="210" y="157" text-anchor="middle">10%</text>
-              <text class="orbit-label" x="210" y="181" text-anchor="middle">rotated</text>
-            </svg>
+
+          <div class="rope-controls">
+            <div class="rope-control">
+              <label for="rope-fraction">
+                <span>RoPE fraction</span>
+                <output id="rope-fraction-value" for="rope-fraction">10%</output>
+              </label>
+              <input id="rope-fraction" type="range" min="0" max="100" step="5" value="10" />
+              <div class="range-labels" aria-hidden="true"><span>0</span><span>25</span><span>50</span><span>75</span><span>100%</span></div>
+            </div>
+            <div class="rope-control">
+              <label for="token-position">
+                <span>Token position</span>
+                <output id="token-position-value" for="token-position">24</output>
+              </label>
+              <input id="token-position" type="range" min="0" max="128" step="1" value="24" />
+              <div class="range-labels" aria-hidden="true"><span>0</span><span>32</span><span>64</span><span>96</span><span>128</span></div>
+            </div>
           </div>
-          <div class="dimension-map" aria-hidden="true">
-            <span class="rotated"></span><span class="rotated"></span><span></span><span></span><span></span>
-            <span></span><span></span><span></span><span></span><span></span>
-            <span></span><span></span><span></span><span></span><span></span>
-            <span></span><span></span><span></span><span></span><span></span>
+
+          <div class="frequency-axis" aria-hidden="true">
+            <span>higher frequency</span><i></i><span>lower frequency</span><b>no rotation</b>
           </div>
+
+          <div id="rope-pair-grid" class="rope-pair-grid" role="group" aria-label="Hidden-state dimension pairs and their assigned RoPE frequencies"></div>
+
+          <div class="rope-inspector" aria-live="polite">
+            <span id="rope-active-summary">6 of 64 dimensions rotate · 3 frequency pairs</span>
+            <strong id="rope-pair-title">Dims 0–1 · highest frequency</strong>
+            <p id="rope-pair-detail">Select a dimension pair to inspect its frequency and rotation.</p>
+          </div>
+
           <div class="rotation-card-bottom">
-            <span><i class="legend-rotated"></i> RoPE dimensions</span>
-            <span><i></i> untouched dimensions</span>
+            <span>θ<sub>i</sub> = 10000<sup>−2i / d<sub>rope</sub></sup></span>
+            <a href="https://github.com/aflah02/Rope_Viz_Tool" target="_blank" rel="noreferrer">Full visualizer <span aria-hidden="true">↗</span></a>
           </div>
         </div>
       </section>
