@@ -37,13 +37,11 @@ Each subdirectory follows the naming convention:
 
 Within each directory, subfolders correspond to different RoPE configurations evaluated for that model, dataset, and sequence length.
 
-## Requesting Checkpoints
+## Accessing Trained Models
 
-Due to the large size of the model checkpoints, we are currently unable to host all intermediate checkpoints in this repository.
+All final checkpoints are uploaded to [this Hugging Face collection](https://huggingface.co/collections/aflah/partial-rope-analysis).
 
-We are working on uploading the final checkpoints to Hugging Face. In the meantime, the fastest way to request a specific checkpoint for analysis is to open an issue in this repository. Once requested, we will upload the corresponding model and share it as soon as possible.
-
-Please note that not all models have HF-compatible classes and require using GPT-NeoX directly to run inference.
+Please note that not all checkpoints are in NeoX format and require using GPT-NeoX directly to run inference.
 
 ## Citation
 
