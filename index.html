@@ -1,0 +1,279 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Partial RoPE can preserve the convergence of full RoPE while reducing positional cache memory for extreme long-context training."
+    />
+    <meta name="theme-color" content="#08110f" />
+    <title>Fractional Rotation, Full Potential? | Partial RoPE</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2308110f'/%3E%3Cpath d='M43 19a19 19 0 1 0 5 20' fill='none' stroke='%23c6ff5d' stroke-width='7' stroke-linecap='round'/%3E%3Cpath d='m42 9 3 13-13-3' fill='none' stroke='%23c6ff5d' stroke-width='7' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E" />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="script.js" defer></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <header class="site-header">
+      <a class="wordmark" href="#top" aria-label="Partial RoPE home">
+        <span class="wordmark-mark" aria-hidden="true"></span>
+        <span>partial<span>/</span>rope</span>
+      </a>
+      <nav aria-label="Primary navigation">
+        <a href="#findings">Findings</a>
+        <a href="#study">Study</a>
+        <a href="#resources">Resources</a>
+      </nav>
+      <a class="header-link" href="https://github.com/aflah02/Partial_RoPE_Analysis" target="_blank" rel="noreferrer">
+        GitHub
+        <span aria-hidden="true">↗</span>
+      </a>
+    </header>
+
+    <main id="main">
+      <section class="hero" id="top">
+        <div class="hero-copy">
+          <div class="eyebrow"><span></span> Accepted at EMNLP 2026</div>
+          <h1>
+            Fractional Rotation,
+            <em>Full Potential?</em>
+          </h1>
+          <p class="hero-deck">
+            How much of an attention head actually needs rotary position encoding?
+            Our large-scale study finds that a small fraction can be enough.
+          </p>
+          <div class="hero-actions">
+            <a class="button button-primary" href="https://arxiv.org/abs/2603.11611" target="_blank" rel="noreferrer">Read the paper <span aria-hidden="true">↗</span></a>
+            <a class="button button-secondary" href="https://github.com/aflah02/Partial_RoPE_Analysis" target="_blank" rel="noreferrer">Explore the code</a>
+          </div>
+          <p class="authors">
+            Mohammad Aflah Khan · Krishna P. Gummadi · Manish Gupta · Abhilasha Ravichander
+          </p>
+        </div>
+
+        <div class="rotation-card" aria-label="Conceptual illustration: two of twenty dimensions rotate, representing ten percent Partial RoPE">
+          <div class="rotation-card-top">
+            <span>Attention head</span>
+            <span class="live-dot">conceptual view</span>
+          </div>
+          <div class="orbit-stage" aria-hidden="true">
+            <svg viewBox="0 0 420 320" role="img">
+              <defs>
+                <linearGradient id="orbitGlow" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0" stop-color="#c6ff5d" />
+                  <stop offset="1" stop-color="#48ead0" />
+                </linearGradient>
+              </defs>
+              <circle class="orbit orbit-outer" cx="210" cy="160" r="116" />
+              <circle class="orbit orbit-inner" cx="210" cy="160" r="75" />
+              <path class="orbit-arrow" d="M111 101a116 116 0 0 1 197-17" />
+              <path class="orbit-arrow-head" d="m304 67 20 22-29 5" />
+              <circle class="signal-dot signal-dot-one" cx="210" cy="44" r="7" />
+              <circle class="signal-dot signal-dot-two" cx="285" cy="217" r="5" />
+              <text class="orbit-value" x="210" y="157" text-anchor="middle">10%</text>
+              <text class="orbit-label" x="210" y="181" text-anchor="middle">rotated</text>
+            </svg>
+          </div>
+          <div class="dimension-map" aria-hidden="true">
+            <span class="rotated"></span><span class="rotated"></span><span></span><span></span><span></span>
+            <span></span><span></span><span></span><span></span><span></span>
+            <span></span><span></span><span></span><span></span><span></span>
+            <span></span><span></span><span></span><span></span><span></span>
+          </div>
+          <div class="rotation-card-bottom">
+            <span><i class="legend-rotated"></i> RoPE dimensions</span>
+            <span><i></i> untouched dimensions</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="signal-strip" aria-label="Study highlights">
+        <div><strong>≈10%</strong><span>can match full RoPE convergence</span></div>
+        <div><strong>up to 10×</strong><span>smaller RoPE cache at extreme context</span></div>
+        <div><strong>1B → 8B</strong><span>consistent trends across model scales</span></div>
+        <div><strong>100B</strong><span>training tokens in the main settings</span></div>
+      </section>
+
+      <section class="section opening" id="findings">
+        <div class="section-kicker">The question</div>
+        <div class="opening-grid">
+          <h2>RoPE is usually treated as all or nothing. It doesn’t have to be.</h2>
+          <div>
+            <p>
+              Rotary Positional Embeddings encode token order by rotating query and key dimensions.
+              Model families disagree on how many dimensions to rotate—from a quarter to all of them—yet the choice has rarely been studied directly.
+            </p>
+            <p>
+              We isolate that choice and test RoPE fractions from NoPE to full RoPE across architectures, scales, datasets, and sequence lengths.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section findings" aria-labelledby="findings-title">
+        <div class="section-heading">
+          <div>
+            <div class="section-kicker">What we found</div>
+            <h2 id="findings-title">Three results to remember.</h2>
+          </div>
+          <p>Across the study, a surprisingly small amount of positional rotation carried most of the benefit.</p>
+        </div>
+
+        <div class="finding-grid">
+          <article class="finding-card finding-card-featured reveal">
+            <div class="finding-number">01</div>
+            <div class="mini-threshold" aria-hidden="true">
+              <span class="low"></span><span class="low"></span><span class="threshold"></span><span></span><span></span><span></span><span></span>
+            </div>
+            <h3>A small fraction is enough</h3>
+            <p>Configurations around 10% or higher track the convergence and final loss of full RoPE in the tested settings.</p>
+            <div class="card-note">The clearest performance boundary appeared below 10%.</div>
+          </article>
+
+          <article class="finding-card reveal">
+            <div class="finding-number">02</div>
+            <div class="memory-glyph" aria-hidden="true">
+              <span class="memory-full">100%</span>
+              <span class="memory-partial">10%</span>
+            </div>
+            <h3>Memory scales with the fraction</h3>
+            <p>Rotating fewer dimensions shrinks the sine/cosine cache proportionally—up to an order of magnitude at 10% RoPE.</p>
+            <div class="card-note">This becomes meaningful mainly at extreme context lengths.</div>
+          </article>
+
+          <article class="finding-card reveal">
+            <div class="finding-number">03</div>
+            <div class="stability-glyph" aria-hidden="true">
+              <span>NoPE</span>
+              <svg viewBox="0 0 220 56"><path d="M2 39 C40 37,58 40,90 38 S126 35,145 38 L157 8 L168 40 C184 42,198 37,218 38" /></svg>
+            </div>
+            <h3>Minimal position signals stabilize</h3>
+            <p>NoPE can produce unrecoverable loss spikes at scale. Even minimal RoPE—or QK-Norm—mitigates that instability.</p>
+            <div class="card-note">Partial RoPE is the more direct positional solution.</div>
+          </article>
+        </div>
+      </section>
+
+      <section class="section study" id="study" aria-labelledby="study-title">
+        <div class="study-copy">
+          <div class="section-kicker">Study landscape</div>
+          <h2 id="study-title">One architectural choice, tested from multiple angles.</h2>
+          <p>
+            We pretrained decoder-only models from scratch and varied only the fraction of hidden dimensions receiving RoPE. The pattern held across the axes below.
+          </p>
+        </div>
+        <div class="study-matrix">
+          <div class="matrix-row reveal">
+            <span>Architecture</span>
+            <strong>Sequential attention</strong>
+            <strong>Parallel attention</strong>
+          </div>
+          <div class="matrix-row reveal">
+            <span>Scale</span>
+            <strong>LLaMA-like 1B</strong>
+            <strong>LLaMA-like 8B</strong>
+            <strong>Pythia 1B</strong>
+          </div>
+          <div class="matrix-row reveal">
+            <span>Sequence</span>
+            <strong>1K</strong>
+            <strong>2K</strong>
+            <strong>4K</strong>
+            <strong>8K</strong>
+          </div>
+          <div class="matrix-row reveal">
+            <span>Data</span>
+            <strong>FineWeb</strong>
+            <strong>FineWeb-Edu</strong>
+          </div>
+          <div class="matrix-row reveal">
+            <span>RoPE fraction</span>
+            <strong>0%</strong>
+            <strong>minimal</strong>
+            <strong class="accent-chip">10%</strong>
+            <strong>25–100%</strong>
+          </div>
+        </div>
+      </section>
+
+      <section class="context-callout reveal" aria-labelledby="context-title">
+        <div class="context-mark" aria-hidden="true">↗</div>
+        <div>
+          <div class="section-kicker">The important caveat</div>
+          <h2 id="context-title">The memory win matters most when context becomes extreme.</h2>
+        </div>
+        <p>
+          At short and moderately long sequence lengths, the RoPE cache is usually not a prominent memory constraint. At million-token scales and beyond, its linear growth turns partial RoPE into a practical design lever—especially when caches are replicated across accelerators.
+        </p>
+      </section>
+
+      <section class="section guidance" aria-labelledby="guidance-title">
+        <div class="section-heading">
+          <div>
+            <div class="section-kicker">Design guidance</div>
+            <h2 id="guidance-title">A pragmatic starting point.</h2>
+          </div>
+        </div>
+        <div class="guidance-track">
+          <article class="reveal">
+            <span>01</span>
+            <h3>Start near 10%</h3>
+            <p>Use it as a strong empirical baseline—not a universal constant.</p>
+          </article>
+          <article class="reveal">
+            <span>02</span>
+            <h3>Validate your setting</h3>
+            <p>Check the interaction with head dimension, context length, and block design.</p>
+          </article>
+          <article class="reveal">
+            <span>03</span>
+            <h3>Be careful with NoPE</h3>
+            <p>At scale, retain a minimal positional signal or add QK-Norm for stability.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="resources" id="resources" aria-labelledby="resources-title">
+        <div class="resources-copy">
+          <div class="section-kicker">Go deeper</div>
+          <h2 id="resources-title">Paper, code, and artifacts.</h2>
+          <p>Read the full methodology and results, or reproduce the training and evaluation pipeline from the public repository.</p>
+          <div class="resource-links">
+            <a href="https://arxiv.org/abs/2603.11611" target="_blank" rel="noreferrer">Paper <span aria-hidden="true">↗</span></a>
+            <a href="https://arxiv.org/abs/2603.11611" target="_blank" rel="noreferrer">arXiv <span aria-hidden="true">↗</span></a>
+            <a href="https://github.com/aflah02/Partial_RoPE_Analysis" target="_blank" rel="noreferrer">Code <span aria-hidden="true">↗</span></a>
+          </div>
+        </div>
+
+        <div class="citation-card">
+          <div class="citation-top">
+            <span>BibTeX</span>
+            <button id="copy-citation" type="button">Copy citation</button>
+          </div>
+          <pre><code id="citation">@misc{khan2026fractionalrotationpotentialinvestigating,
+  title         = {Fractional Rotation, Full Potential?
+                   Investigating Performance and Convergence
+                   of Partial RoPE},
+  author        = {Mohammad Aflah Khan and Krishna P. Gummadi
+                   and Manish Gupta and Abhilasha Ravichander},
+  year          = {2026},
+  eprint        = {2603.11611},
+  archivePrefix = {arXiv},
+  primaryClass  = {cs.LG}
+}</code></pre>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="footer-title">Fractional Rotation, Full Potential?</div>
+      <div class="footer-meta">
+        <span>Max Planck Institute for Software Systems</span>
+        <span>Microsoft, Hyderabad</span>
+        <span>EMNLP 2026</span>
+      </div>
+    </footer>
+  </body>
+</html>
