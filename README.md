@@ -8,7 +8,7 @@ Instructions for setting up the environment, downloading the datasets, preproces
 
 ## Reproducing Training
 
-All training runs associated with this work can be viewed on Weights & Biases (W&B) [here]().
+All training runs associated with this work can be viewed on Weights & Biases (W&B) [here](https://wandb.ai/aflah/rope-pct-exps/overview).
 
 For training, we use this fork + branch of EleutherAI’s GPT-NeoX:
 [ameyagodbole/hubble-gpt-neox/tree/hubble-skip-deepspeed-update](https://github.com/ameyagodbole/hubble-gpt-neox/tree/hubble-skip-deepspeed-update)
