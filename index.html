@@ -23,6 +23,7 @@
       </a>
       <nav aria-label="Primary navigation">
         <a href="#findings">Findings</a>
+        <a href="#models">Models</a>
         <a href="#study">Study</a>
         <a href="#resources">Resources</a>
       </nav>
@@ -110,6 +111,103 @@
             </p>
           </div>
         </div>
+      </section>
+
+      <section class="section model-choices" id="models" aria-labelledby="models-title">
+        <div class="model-choice-head">
+          <div>
+            <div class="section-kicker">Choices in existing models</div>
+            <h2 id="models-title">The implementation is public. The rationale often isn’t.</h2>
+          </div>
+          <div class="choice-summary">
+            <p>
+              Open model families span a wide range—from rotating one quarter of each head to rotating every dimension. Formal ablations or detailed explanations for the fraction are rare.
+            </p>
+            <div class="choice-spectrum" aria-label="Observed Partial RoPE choices span 25 to 100 percent">
+              <span>25%</span><i></i><span>40%</span><i></i><span>50%</span><i></i><span>100%</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="model-table-wrap reveal">
+          <table class="model-table">
+            <thead>
+              <tr>
+                <th scope="col">Model family</th>
+                <th scope="col">RoPE fraction</th>
+                <th scope="col">Rationale in the literature</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <strong>GPT-J · GPT-NeoX · Pythia</strong>
+                  <span>Early partial-RoPE lineage</span>
+                </td>
+                <td>
+                  <div class="fraction-meter" style="--fraction: 25%"><i></i><strong>25%</strong></div>
+                </td>
+                <td>
+                  <span class="rationale-tag rationale-limited">Limited evidence</span>
+                  <p>GPT-NeoX reported a small-scale 25% trade-off; later adopters largely inherited the setting.</p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <strong>Phi-2</strong>
+                  <span>Microsoft</span>
+                </td>
+                <td>
+                  <div class="fraction-meter" style="--fraction: 40%"><i></i><strong>40%</strong></div>
+                </td>
+                <td>
+                  <span class="rationale-tag">Not detailed</span>
+                  <p>No systematic fraction ablation is reported alongside the configuration.</p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <strong>Nemotron-4-340B</strong>
+                  <span>NVIDIA</span>
+                </td>
+                <td>
+                  <div class="fraction-meter" style="--fraction: 50%"><i></i><strong>50%</strong></div>
+                </td>
+                <td>
+                  <span class="rationale-tag">Not detailed</span>
+                  <p>The configuration exposes the choice, but not a systematic justification for the fraction.</p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <strong>LLaMA family · most Qwen models</strong>
+                  <span>Full-RoPE convention</span>
+                </td>
+                <td>
+                  <div class="fraction-meter" style="--fraction: 100%"><i></i><strong>100%</strong></div>
+                </td>
+                <td>
+                  <span class="rationale-tag rationale-default">Default convention</span>
+                  <p>Full rotation is standard, while fraction-specific justification is rarely stated.</p>
+                </td>
+              </tr>
+              <tr class="model-row-accent">
+                <td>
+                  <strong>Qwen3-Next</strong>
+                  <span>A recent shift back to partial RoPE</span>
+                </td>
+                <td>
+                  <div class="fraction-meter" style="--fraction: 25%"><i></i><strong>25%</strong></div>
+                </td>
+                <td>
+                  <span class="rationale-tag rationale-explicit">Explicit claim</span>
+                  <p>The team links the choice to improved extrapolation at longer sequence lengths.</p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="model-table-note">Representative open-weight models. Configuration names differ across training frameworks.</p>
       </section>
 
       <section class="section findings" aria-labelledby="findings-title">
