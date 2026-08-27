@@ -25,6 +25,7 @@
         <a href="#findings">Findings</a>
         <a href="#models">Models</a>
         <a href="#study">Study</a>
+        <a href="#cache">Cache</a>
         <a href="#resources">Resources</a>
       </nav>
       <a class="header-link" href="https://github.com/aflah02/Partial_RoPE_Analysis" target="_blank" rel="noreferrer">
@@ -336,6 +337,64 @@
         <p>
           At short and moderately long sequence lengths, the RoPE cache is usually not a prominent memory constraint. At million-token scales and beyond, its linear growth turns partial RoPE into a practical design lever, especially when caches are replicated across accelerators.
         </p>
+      </section>
+
+      <section class="section cache-growth" id="cache" aria-labelledby="cache-title">
+        <div class="cache-heading">
+          <div>
+            <div class="section-kicker">RoPE cache VRAM</div>
+            <h2 id="cache-title">Small at ordinary contexts. Material at extreme scale.</h2>
+          </div>
+          <div class="cache-method">
+            <span>Appendix C calculation</span>
+            <code>S<sub>cache</sub> = L<sub>max</sub> × (D<sub>head</sub> × f<sub>RoPE</sub>) × P<sub>bytes</sub></code>
+            <p>The plot defaults to the paper's head dimension of 256 and uses FP32 storage. It shows raw sine/cosine cache storage and excludes memory fragmentation.</p>
+          </div>
+        </div>
+
+        <div class="cache-chart-card reveal">
+          <div class="cache-chart-top">
+            <div>
+              <span class="cache-chart-meta"><span id="cache-head-dim-meta">256-d head</span> · FP32 · per cache copy</span>
+              <h3>Cache size grows linearly with sequence length</h3>
+              <div class="cache-head-control">
+                <label for="cache-head-dim">
+                  <span>Head dimension</span>
+                  <output id="cache-head-dim-value" for="cache-head-dim">256</output>
+                </label>
+                <input id="cache-head-dim" type="range" min="0" max="3" step="1" value="3" aria-valuetext="256 dimensions" />
+                <div class="cache-head-options" aria-hidden="true"><span>32</span><span>64</span><span>128</span><span>256</span></div>
+              </div>
+            </div>
+            <div class="cache-legend" id="cache-legend" aria-label="Toggle RoPE fractions">
+              <button type="button" data-cache-series="1" aria-pressed="true" style="--series-color: #08110f"><i></i>Full RoPE</button>
+              <button type="button" data-cache-series="0.75" aria-pressed="true" style="--series-color: #007b6c"><i></i>75%</button>
+              <button type="button" data-cache-series="0.5" aria-pressed="true" style="--series-color: #2cb79d"><i></i>50%</button>
+              <button type="button" data-cache-series="0.25" aria-pressed="true" style="--series-color: #77a92f"><i></i>25%</button>
+              <button type="button" data-cache-series="0.1" aria-pressed="true" style="--series-color: #8b67c8"><i></i>10%</button>
+            </div>
+          </div>
+
+          <div class="cache-plot-wrap">
+            <svg id="cache-chart" viewBox="0 0 1040 540" role="img" aria-labelledby="cache-chart-title cache-chart-desc" tabindex="0">
+              <title id="cache-chart-title">RoPE cache VRAM from 1,024 to 134 million tokens</title>
+              <desc id="cache-chart-desc">A log scale line plot of full, 75 percent, 50 percent, 25 percent, and 10 percent RoPE cache sizes at every power-of-two sequence length from 2 to the power of 10 through 2 to the power of 27. A reference line marks 100 million tokens.</desc>
+            </svg>
+            <div class="cache-tooltip" id="cache-tooltip" hidden></div>
+          </div>
+
+          <div class="cache-chart-footer">
+            <p id="cache-note">Both axes use log<sub>2</sub> spacing. Hover or focus the chart to inspect each power-of-two sequence length.</p>
+            <span>100M tokens marked as a reference</span>
+          </div>
+
+          <div class="cache-100m" aria-label="RoPE cache sizes at 100 million tokens">
+            <div><span>Full RoPE</span><strong id="cache-full-100m">95.4 GiB</strong></div>
+            <div><span>50% RoPE</span><strong id="cache-half-100m">47.7 GiB</strong></div>
+            <div class="cache-100m-accent"><span>10% RoPE</span><strong id="cache-tenth-100m">9.5 GiB</strong></div>
+            <p id="cache-savings-100m">At 100M tokens, reducing RoPE from 100% to 10% saves about 85.8 GiB for every replicated cache copy.</p>
+          </div>
+        </div>
       </section>
 
       <section class="section guidance" aria-labelledby="guidance-title">
