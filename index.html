@@ -122,7 +122,7 @@
           <div>
             <p>
               Rotary Positional Embeddings encode token order by rotating query and key dimensions.
-              Model families disagree on how many dimensions to rotate—from a quarter to all of them—yet the choice has rarely been studied directly.
+              Model families disagree on how many dimensions to rotate, from a quarter to all of them, yet the choice has rarely been studied directly.
             </p>
             <p>
               We isolate that choice and test RoPE fractions from NoPE to full RoPE across architectures, scales, datasets, and sequence lengths.
@@ -139,7 +139,7 @@
           </div>
           <div class="choice-summary">
             <p>
-              Open model families span a wide range—from rotating one quarter of each head to rotating every dimension. Formal ablations or detailed explanations for the fraction are rare.
+              Open model families span a wide range, from rotating one quarter of each head to rotating every dimension. Formal ablations or detailed explanations for the fraction are rare.
             </p>
             <div class="choice-spectrum" aria-label="Observed Partial RoPE choices span 25 to 100 percent">
               <span>25%</span><i></i><span>40%</span><i></i><span>50%</span><i></i><span>100%</span>
@@ -194,6 +194,19 @@
                 <td>
                   <span class="rationale-tag">Not detailed</span>
                   <p>The configuration exposes the choice, but not a systematic justification for the fraction.</p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <strong>GLM-4.5</strong>
+                  <span>Partial RoPE configuration</span>
+                </td>
+                <td>
+                  <div class="fraction-meter" style="--fraction: 50%"><i></i><strong>50%</strong></div>
+                </td>
+                <td>
+                  <span class="rationale-tag">Not detailed</span>
+                  <p>The model also uses 50% Partial RoPE, without a detailed rationale for selecting that fraction.</p>
                 </td>
               </tr>
               <tr>
@@ -255,7 +268,7 @@
               <span class="memory-partial">10%</span>
             </div>
             <h3>Memory scales with the fraction</h3>
-            <p>Rotating fewer dimensions shrinks the sine/cosine cache proportionally—up to an order of magnitude at 10% RoPE.</p>
+            <p>Rotating fewer dimensions shrinks the sine/cosine cache proportionally, up to an order of magnitude at 10% RoPE.</p>
             <div class="card-note">This becomes meaningful mainly at extreme context lengths.</div>
           </article>
 
@@ -266,7 +279,7 @@
               <svg viewBox="0 0 220 56"><path d="M2 39 C40 37,58 40,90 38 S126 35,145 38 L157 8 L168 40 C184 42,198 37,218 38" /></svg>
             </div>
             <h3>Minimal position signals stabilize</h3>
-            <p>NoPE can produce unrecoverable loss spikes at scale. Even minimal RoPE—or QK-Norm—mitigates that instability.</p>
+            <p>NoPE can produce unrecoverable loss spikes at scale. Even minimal RoPE or QK-Norm mitigates that instability.</p>
             <div class="card-note">Partial RoPE is the more direct positional solution.</div>
           </article>
         </div>
@@ -321,7 +334,7 @@
           <h2 id="context-title">The memory win matters most when context becomes extreme.</h2>
         </div>
         <p>
-          At short and moderately long sequence lengths, the RoPE cache is usually not a prominent memory constraint. At million-token scales and beyond, its linear growth turns partial RoPE into a practical design lever—especially when caches are replicated across accelerators.
+          At short and moderately long sequence lengths, the RoPE cache is usually not a prominent memory constraint. At million-token scales and beyond, its linear growth turns partial RoPE into a practical design lever, especially when caches are replicated across accelerators.
         </p>
       </section>
 
@@ -336,7 +349,7 @@
           <article class="reveal">
             <span>01</span>
             <h3>Start near 10%</h3>
-            <p>Use it as a strong empirical baseline—not a universal constant.</p>
+            <p>Use it as a strong empirical baseline, not a universal constant.</p>
           </article>
           <article class="reveal">
             <span>02</span>
@@ -355,13 +368,13 @@
         <div class="resources-copy">
           <div class="section-kicker">Go deeper</div>
           <h2 id="resources-title">Paper, code, and artifacts.</h2>
-          <p>Read the full methodology and results, or reproduce the training and evaluation pipeline from the public repository.</p>
+          <p>Read the full methodology, inspect the training runs, explore released models, or reproduce the training and evaluation pipeline.</p>
           <div class="resource-links">
             <a href="https://arxiv.org/abs/2603.11611" target="_blank" rel="noreferrer">Paper <span aria-hidden="true">↗</span></a>
             <a href="https://arxiv.org/abs/2603.11611" target="_blank" rel="noreferrer">arXiv <span aria-hidden="true">↗</span></a>
             <a href="https://github.com/aflah02/Partial_RoPE_Analysis" target="_blank" rel="noreferrer">Code <span aria-hidden="true">↗</span></a>
-            <a href="https://huggingface.co/collections/aflah/partial-rope-analysis" target="_blank" rel="noreferrer">Hugging Face Collection <span aria-hidden="true">↗</span></a>
-            <a href="https://wandb.ai/aflah/rope-pct-exps/overview" target="_blank" rel="noreferrer">W&amp;B Report <span aria-hidden="true">↗</span></a>
+            <a href="https://wandb.ai/aflah/rope-pct-exps/overview" target="_blank" rel="noreferrer">Weights &amp; Biases <span aria-hidden="true">↗</span></a>
+            <a href="https://huggingface.co/collections/aflah/partial-rope-analysis" target="_blank" rel="noreferrer">Hugging Face collection <span aria-hidden="true">↗</span></a>
           </div>
         </div>
 
